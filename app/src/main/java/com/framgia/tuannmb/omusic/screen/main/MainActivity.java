@@ -5,24 +5,41 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.framgia.tuannmb.omusic.R;
 import com.framgia.tuannmb.omusic.screen.BaseActivity;
+import com.framgia.tuannmb.omusic.screen.soundcloud.SongsFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawer;
+    private SongsFragment mSongsFragment;
 
     @Override
     protected void initializeComponents() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.sound_cloud_music);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, mDrawer, R.string.navigation_drawer_open,
+                this, mDrawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        addSoundCloudFragment();
+    }
+
+    private void addSoundCloudFragment() {
+        if (mSongsFragment == null) {
+            mSongsFragment = new SongsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, mSongsFragment)
+                    .commit();
+        }
     }
 
     @Override
