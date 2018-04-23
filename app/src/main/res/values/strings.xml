@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OMusic</string>
+    <string name="my_music">My Music</string>
+    <string name="sound_cloud_music">Sound Cloud Music</string>
+    <string name="navigation_drawer_open">navigation drawer open</string>
+    <string name="navigation_drawer_close">navigation drawer close</string>
 </resources>
