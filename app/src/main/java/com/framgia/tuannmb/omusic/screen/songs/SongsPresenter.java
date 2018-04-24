@@ -1,4 +1,4 @@
-package com.framgia.tuannmb.omusic.screen.soundcloud;
+package com.framgia.tuannmb.omusic.screen.songs;
 
 public class SongsPresenter implements SongsContract.Presenter {
     private SongsContract.View mView;

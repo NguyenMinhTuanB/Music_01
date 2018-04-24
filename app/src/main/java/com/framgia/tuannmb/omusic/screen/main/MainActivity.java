@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.framgia.tuannmb.omusic.R;
 import com.framgia.tuannmb.omusic.screen.BaseActivity;
-import com.framgia.tuannmb.omusic.screen.soundcloud.SongsFragment;
+import com.framgia.tuannmb.omusic.screen.songs.SongsFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawer;
