@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.framgia.tuannmb.omusic.R;
 import com.framgia.tuannmb.omusic.data.model.Song;
+import com.framgia.tuannmb.omusic.utils.Constant;
+import com.framgia.tuannmb.omusic.utils.StringUtil;
 
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.bindData(mSongs.get(position));
     }
 
     @Override
@@ -52,6 +55,29 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
             mTextSongName = itemView.findViewById(R.id.text_song_name);
             mTextArtist = itemView.findViewById(R.id.text_artist);
             mDownloadSong = itemView.findViewById(R.id.image_download);
+            mTextDuration = itemView.findViewById(R.id.text_duration);
         }
+
+        public void bindData(Song song) {
+            if (song == null) {
+                return;
+            }
+            Glide.with(itemView.getContext()).load(song.getAvatarUrl())
+                    .placeholder(R.drawable.ic_head_phone)
+                    .into(mAvatarSong);
+            mTextSongName.setText(song.getTitle());
+            mTextArtist.setText(song.getUsername());
+            mTextDuration.setText(StringUtil
+                    .parseMilliSecondsToTimer(song.getDuration()));
+        }
+    }
+
+    public List<Song> getSongs() {
+        return mSongs;
+    }
+
+    public void updateSongs(List<Song> songs) {
+        mSongs = songs;
+        notifyDataSetChanged();
     }
 }

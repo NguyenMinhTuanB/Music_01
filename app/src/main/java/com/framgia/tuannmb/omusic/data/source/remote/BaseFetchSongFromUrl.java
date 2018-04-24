@@ -107,5 +107,4 @@ public abstract class BaseFetchSongFromUrl extends AsyncTask<String, Void, List<
         httpURLConnection.disconnect();
         return sb.toString();
     }
-
 }
