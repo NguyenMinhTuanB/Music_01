@@ -3,7 +3,7 @@ package com.framgia.tuannmb.omusic.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Song implements Parcelable{
+public class Song implements Parcelable {
     private String mArtworkUrl;
     private String mDescription;
     private boolean mDownloadable;
@@ -166,5 +166,28 @@ public class Song implements Parcelable{
         parcel.writeString(mUsername);
         parcel.writeString(mAvatarUrl);
         parcel.writeInt(mPlaybackCount);
+    }
+
+    public static class SongEntity {
+        public static final String COLLECTION = "collection";
+        public static final String TRACK = "track";
+        public static final String ARTWORK_URL = "artwork_url";
+        public static final String DESCRIPTION = "description";
+        public static final String DOWNLOADABLE = "downloadable";
+        public static final String DOWNLOAD_URL = "download_url";
+        public static final String DURATION = "duration";
+        public static final String ID = "id";
+        public static final String PLAYBACK_COUNT = "playback_count";
+        public static final String TITLE = "title";
+        public static final String URI = "uri";
+        public static final String USER = "user";
+        public static final String AVATAR_URL = "avatar_url";
+        public static final String LIKES_COUNT = "likes_count";
+        public static final String USERNAME = "username";
+    }
+
+    @Override
+    public String toString() {
+        return mTitle + "_" + mUsername;
     }
 }
