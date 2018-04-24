@@ -1,4 +1,4 @@
-package com.framgia.tuannmb.omusic.screen.soundcloud;
+package com.framgia.tuannmb.omusic.screen.songs;
 
 import com.framgia.tuannmb.omusic.screen.BasePresenter;
 
