@@ -30,6 +30,7 @@ public class GenreFragment extends BaseFragment implements GenreContract.View {
         mPresenter = new GenrePresenter();
         mPresenter.setView(this);
         mPresenter.loadMusic(GenreType.ALL_MUSIC, Constant.LIMIT_20, Constant.OFFSET_20);
+
     }
 
     @Override
