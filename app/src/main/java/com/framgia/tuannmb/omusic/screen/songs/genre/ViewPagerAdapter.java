@@ -1,16 +1,12 @@
 package com.framgia.tuannmb.omusic.screen.songs.genre;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.framgia.tuannmb.omusic.data.model.GenreType;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -18,22 +14,46 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        switch (position) {
+            case TabLayoutPosition.TAB_ONE:
+                return GenreFragment.newInstance(GenreType.ALL_MUSIC);
+            case TabLayoutPosition.TAB_TW0:
+                return GenreFragment.newInstance(GenreType.ALL_AUDIO);
+            case TabLayoutPosition.TAB_THREE:
+                return GenreFragment.newInstance(GenreType.AMBIENT);
+            case TabLayoutPosition.TAB_FOUR:
+                return GenreFragment.newInstance(GenreType.CLASSICAL);
+            case TabLayoutPosition.TAB_FIVE:
+                return GenreFragment.newInstance(GenreType.COUNTRY);
+            case TabLayoutPosition.TAB_SIX:
+                return GenreFragment.newInstance(GenreType.ALTERNATIVEROCK);
+            default:
+                return GenreFragment.newInstance(GenreType.ALL_MUSIC);
+        }
     }
 
     @Override
     public int getCount() {
-        return mFragmentTitleList.size();
+        return TabLayoutPosition.TOTAL_TAB;
     }
 
-    public void addFragment(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
-
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        switch (position) {
+            case TabLayoutPosition.TAB_ONE:
+                return GenreType.ALL_MUSIC;
+            case TabLayoutPosition.TAB_TW0:
+                return GenreType.ALL_AUDIO;
+            case TabLayoutPosition.TAB_THREE:
+                return GenreType.AMBIENT;
+            case TabLayoutPosition.TAB_FOUR:
+                return GenreType.CLASSICAL;
+            case TabLayoutPosition.TAB_FIVE:
+                return GenreType.COUNTRY;
+            case TabLayoutPosition.TAB_SIX:
+                return GenreType.ALTERNATIVEROCK;
+            default:
+                return GenreType.ALL_MUSIC;
+        }
     }
 }

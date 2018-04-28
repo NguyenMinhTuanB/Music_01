@@ -1,5 +1,7 @@
 package com.framgia.tuannmb.omusic.screen.main;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,12 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.framgia.tuannmb.omusic.R;
+import com.framgia.tuannmb.omusic.data.model.Song;
 import com.framgia.tuannmb.omusic.screen.BaseActivity;
 import com.framgia.tuannmb.omusic.screen.songs.SongsFragment;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+import java.io.IOException;
+
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MediaPlayer.OnPreparedListener {
     private DrawerLayout mDrawer;
     private SongsFragment mSongsFragment;
+
+    private Song mSong;
 
     @Override
     protected void initializeComponents() {
@@ -60,5 +67,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setSong(Song song) {
+        mSong = song;
+    }
+
+    public Song getSong() {
+        return mSong;
+    }
+
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mediaPlayer.start();
     }
 }

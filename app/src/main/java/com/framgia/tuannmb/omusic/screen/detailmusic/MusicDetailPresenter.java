@@ -16,22 +16,22 @@ public class MusicDetailPresenter implements MusicDetailContract.Presenter {
     }
 
     @Override
-    public void doRepeat() {
+    public void repeat() {
 
     }
 
     @Override
-    public void doBack() {
+    public void previousSong() {
 
     }
 
     @Override
-    public void doNext() {
+    public void nextSong() {
 
     }
 
     @Override
-    public void doStop() {
+    public void stopSong() {
 
     }
 

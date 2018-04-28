@@ -55,7 +55,7 @@
         android:id="@+id/image_shuffle"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
-        android:src="@drawable/ic_shuffle_black"
+        android:src="@drawable/level_list_shuffle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/image_previous" />
 
@@ -73,7 +73,7 @@
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
         android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_play_black"
+        android:src="@drawable/level_list_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/image_previous"
@@ -93,7 +93,7 @@
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
         android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_repeat_black"
+        android:src="@drawable/level_list_repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/image_next" />
 

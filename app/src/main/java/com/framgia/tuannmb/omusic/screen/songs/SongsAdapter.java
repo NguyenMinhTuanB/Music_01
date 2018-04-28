@@ -19,8 +19,14 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     private List<Song> mSongs;
     private LayoutInflater mLayoutInflater;
 
+    private SongItemClickListener mSongItemClickListener;
+
     public SongsAdapter(List<Song> songs) {
         mSongs = songs;
+    }
+
+    public void setSongItemClickListener(SongItemClickListener songItemClickListener) {
+        mSongItemClickListener = songItemClickListener;
     }
 
     @Override
@@ -33,8 +39,15 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.bindData(mSongs.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSongItemClickListener.onClickListener(mSongs.get(position));
+                mSongItemClickListener.onClickListener(position, mSongs);
+            }
+        });
     }
 
     @Override
@@ -79,5 +92,10 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     public void updateSongs(List<Song> songs) {
         mSongs = songs;
         notifyDataSetChanged();
+    }
+
+    public interface SongItemClickListener{
+        void onClickListener(Song song);
+        void onClickListener(int position, List<Song> songs);
     }
 }
