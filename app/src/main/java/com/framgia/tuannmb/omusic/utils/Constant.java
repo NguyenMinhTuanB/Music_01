@@ -1,7 +1,5 @@
 package com.framgia.tuannmb.omusic.utils;
 
-import android.support.annotation.StringDef;
-
 public class Constant {
     //Network
     public static final String BASE_URL = "https://api-v2.soundcloud.com/";
@@ -16,6 +14,10 @@ public class Constant {
 
     public static final String BREAK_LINE = "\n";
 
+    public static final String PARA_STREAM = "stream";
+
     public static final int LIMIT_20 = 20;
     public static final int OFFSET_20 = 20;
+
+    public static final int DELAY_TIME = 1000; /*milliseconds*/
 }
