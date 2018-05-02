@@ -14,5 +14,7 @@ public interface GenreContract {
 
     interface Presenter extends BasePresenter<GenreContract.View> {
         void loadMusic(String genre, int limit, int offSet);
+
+        List<Song> getSongs();
     }
 }

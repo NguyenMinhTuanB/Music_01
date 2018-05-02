@@ -6,6 +6,7 @@ import android.util.Log;
 import com.framgia.tuannmb.omusic.data.model.Song;
 import com.framgia.tuannmb.omusic.data.source.SongDataSource;
 import com.framgia.tuannmb.omusic.utils.Constant;
+import com.framgia.tuannmb.omusic.utils.StringUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +81,7 @@ public abstract class BaseFetchSongFromUrl extends AsyncTask<String, Void, List<
             song.setLikesCount(jsonSong.getInt(Song.SongEntity.LIKES_COUNT));
             song.setPlaybackCount(jsonSong.getInt(Song.SongEntity.PLAYBACK_COUNT));
             song.setTitle(jsonSong.getString(Song.SongEntity.TITLE));
-            song.setUri(jsonSong.getString(Song.SongEntity.URI));
+            song.setUri(StringUtil.getUrlStreamTrack(jsonSong.getString(Song.SongEntity.URI)));
             song.setUsername(jsonUser.getString(Song.SongEntity.USERNAME));
         } catch (JSONException e) {
             e.printStackTrace();
