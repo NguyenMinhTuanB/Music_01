@@ -7,4 +7,5 @@
     <string name="song_name">Take Me To Your Heart</string>
     <string name="artist">Michael Learns</string>
     <string name="default_duration">00:00</string>
+    <string name="default_time_seek_bar">00:00/00:00</string>
 </resources>

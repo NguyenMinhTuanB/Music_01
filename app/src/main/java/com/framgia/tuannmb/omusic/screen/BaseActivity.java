@@ -10,7 +10,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutActivity());
         initializeComponents();
+        registerListeners();
     }
+
+    protected abstract void registerListeners();
 
     protected abstract void initializeComponents();
 
