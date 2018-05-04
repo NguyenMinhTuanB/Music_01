@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.framgia.tuannmb.omusic.R;
 import com.framgia.tuannmb.omusic.data.model.Song;
-import com.framgia.tuannmb.omusic.utils.Constant;
 import com.framgia.tuannmb.omusic.utils.StringUtil;
 
 import java.util.List;
@@ -18,9 +17,14 @@ import java.util.List;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> {
     private List<Song> mSongs;
     private LayoutInflater mLayoutInflater;
+    private SongItemClickListener mSongItemClickListener;
 
     public SongsAdapter(List<Song> songs) {
         mSongs = songs;
+    }
+
+    public void setSongItemClickListener(SongItemClickListener songItemClickListener) {
+        mSongItemClickListener = songItemClickListener;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
         return mSongs == null ? 0 : mSongs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mAvatarSong;
         private TextView mTextSongName;
         private TextView mTextArtist;
@@ -56,6 +60,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
             mTextArtist = itemView.findViewById(R.id.text_artist);
             mDownloadSong = itemView.findViewById(R.id.image_download);
             mTextDuration = itemView.findViewById(R.id.text_duration);
+            itemView.setOnClickListener(this);
         }
 
         public void bindData(Song song) {
@@ -70,6 +75,14 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
             mTextDuration.setText(StringUtil
                     .parseMilliSecondsToTimer(song.getDuration()));
         }
+
+        @Override
+        public void onClick(View view) {
+            if (mSongItemClickListener == null) {
+                return;
+            }
+            mSongItemClickListener.onItemClick(getAdapterPosition(), mSongs);
+        }
     }
 
     public List<Song> getSongs() {
@@ -79,5 +92,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     public void updateSongs(List<Song> songs) {
         mSongs = songs;
         notifyDataSetChanged();
+    }
+
+    public interface SongItemClickListener {
+        void onItemClick(int position, List<Song> songs);
     }
 }

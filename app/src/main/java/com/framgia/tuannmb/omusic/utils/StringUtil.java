@@ -3,7 +3,6 @@ package com.framgia.tuannmb.omusic.utils;
 import com.framgia.tuannmb.omusic.BuildConfig;
 
 public class StringUtil {
-    public static final String GENRE = "genre";
 
     public static String covertUrlFetchMusicGenre(String genre, int limit, int offset) {
         return String.format("%s%s%s&%s=%s&%s=%d&%s=%d", Constant.BASE_URL,
