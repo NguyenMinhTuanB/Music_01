@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">OMusic</string>
     <string name="my_music">My Music</string>
+    <string name="exit_music">Exit OMusic</string>
     <string name="sound_cloud_music">Sound Cloud Music</string>
     <string name="navigation_drawer_open">navigation drawer open</string>
     <string name="navigation_drawer_close">navigation drawer close</string>
     <string name="song_name">Take Me To Your Heart</string>
     <string name="artist">Michael Learns</string>
+    <string name="category">Category</string>
+    <string name="album">Album: </string>
+    <string name="my_artist">Artist: </string>
+    <string name="total_song">12 songs</string>
     <string name="default_duration">00:00</string>
     <string name="default_time_seek_bar">00:00/00:00</string>
 </resources>
