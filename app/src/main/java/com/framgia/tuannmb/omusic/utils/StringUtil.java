@@ -23,8 +23,16 @@ public class StringUtil {
                 parseMilliSecondsToTimer(timeCurrent), parseMilliSecondsToTimer(totalTime));
     }
 
-    public static String getUrlStreamTrack(String uriTrack) {
-        return String.format("%s/%s?%s=%s", uriTrack, Constant.PARA_STREAM,
+    public static String getUrlStreamSong(String uriSong) {
+        return String.format("%s/%s?%s=%s", uriSong, Constant.PARA_STREAM,
                 Constant.CLIENT_ID, BuildConfig.API_KEY);
+    }
+
+    public static String convertUrlDownloadSong(String url) {
+        return String.format("%s?%s=%s", url, Constant.CLIENT_ID, BuildConfig.API_KEY);
+    }
+
+    public static String getTextForControl(String artist, String title) {
+        return String.format("%s - %s", artist, title);
     }
 }
