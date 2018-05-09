@@ -10,6 +10,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         android:layout_width="0dp"
         android:layout_height="?actionBarSize"
         android:background="@color/color_primary"
@@ -27,17 +28,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <include
-        layout="@layout/view_small_play_music"
+
+        layout="@layout/view_small_control_music"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
-    <include
-        layout="@layout/view_detail_music"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 </android.support.constraint.ConstraintLayout>

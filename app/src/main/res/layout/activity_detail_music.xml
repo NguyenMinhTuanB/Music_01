@@ -1,112 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_detail_music"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:padding="@dimen/dp_16">
+    android:clickable="true">
 
-    <TextView
-        android:id="@+id/text_title"
+    <View
+        android:id="@+id/container_top"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_80"
+        android:background="@color/color_detail_music_bar" />
+
+    <ImageView
+        android:id="@+id/image_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="@string/song_name"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/sp_20"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:src="@drawable/ic_back"
+        app:layout_constraintLeft_toLeftOf="@+id/container_top"
+        app:layout_constraintTop_toTopOf="@+id/container_top" />
 
     <TextView
         android:id="@+id/text_artist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_8"
         android:fontFamily="sans-serif"
+        android:maxLines="1"
         android:text="@string/artist"
         android:textColor="@android:color/black"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintLeft_toRightOf="@+id/image_back"
+        app:layout_constraintTop_toTopOf="@+id/container_top" />
+
+    <TextView
+        android:id="@+id/text_song_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:fontFamily="sans-serif"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/song_name"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/sp_18"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        app:layout_constraintBottom_toBottomOf="@id/container_top"
+        app:layout_constraintTop_toTopOf="@+id/text_artist" />
 
     <ImageView
         android:id="@+id/image_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_20"
-        android:src="@drawable/ic_download_black"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:src="@drawable/ic_download"
+        app:layout_constraintRight_toRightOf="@+id/container_top"
+        app:layout_constraintTop_toTopOf="@+id/container_top" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_song"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_16"
-        android:background="@color/color_accent"
-        android:scaleType="center"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
         app:layout_constraintBottom_toTopOf="@+id/seek_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_artist" />
-
-    <ImageView
-        android:id="@+id/image_shuffle"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
-        android:src="@drawable/ic_shuffle_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/image_previous" />
-
-    <ImageView
-        android:id="@+id/image_previous"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_previous_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/image_play" />
-
-    <ImageView
-        android:id="@+id/image_play"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_play_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/image_previous"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <ImageView
-        android:id="@+id/image_next"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_next_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/image_play" />
-
-    <ImageView
-        android:id="@+id/image_repeat"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
-        android:layout_marginStart="@dimen/dp_4"
-        android:src="@drawable/ic_repeat_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/image_next" />
+        app:layout_constraintTop_toBottomOf="@id/container_top" />
 
     <TextView
         android:id="@+id/text_current_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
         android:fontFamily="sans-serif"
         android:text="@string/default_duration"
         android:textColor="@android:color/black"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintBottom_toTopOf="@+id/image_shuffle"
+        app:layout_constraintBottom_toTopOf="@+id/view_container"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
@@ -114,14 +98,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
         android:fontFamily="sans-serif"
         android:text="@string/default_duration"
         android:textColor="@android:color/black"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintBottom_toTopOf="@+id/image_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/view_container"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <android.support.v7.widget.AppCompatSeekBar
+    <SeekBar
         android:id="@+id/seek_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -131,8 +116,70 @@
         android:progressBackgroundTint="@android:color/black"
         android:progressTint="@android:color/black"
         android:thumbTint="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/image_play"
+        app:layout_constraintBottom_toTopOf="@+id/view_container"
         app:layout_constraintLeft_toRightOf="@+id/text_current_time"
         app:layout_constraintRight_toLeftOf="@+id/text_duration" />
+
+    <View
+        android:id="@+id/view_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_72"
+        android:background="@color/color_accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_shuffle"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@drawable/level_list_shuffle"
+        app:layout_constraintBottom_toBottomOf="@+id/view_container"
+        app:layout_constraintRight_toLeftOf="@+id/image_previous"
+        app:layout_constraintTop_toTopOf="@+id/view_container" />
+
+    <ImageView
+        android:id="@+id/image_previous"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/ic_previous"
+        app:layout_constraintBottom_toBottomOf="@+id/view_container"
+        app:layout_constraintRight_toLeftOf="@id/image_play"
+        app:layout_constraintTop_toTopOf="@id/view_container" />
+
+    <ImageView
+        android:id="@+id/image_play"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/level_list_play"
+        app:layout_constraintBottom_toBottomOf="@+id/view_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_container" />
+
+    <ImageView
+        android:id="@+id/image_next"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/ic_next"
+        app:layout_constraintBottom_toBottomOf="@+id/view_container"
+        app:layout_constraintLeft_toRightOf="@id/image_play"
+        app:layout_constraintTop_toTopOf="@+id/view_container" />
+
+    <ImageView
+        android:id="@+id/image_repeat"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/level_list_repeat"
+        app:layout_constraintBottom_toBottomOf="@+id/view_container"
+        app:layout_constraintLeft_toRightOf="@+id/image_next"
+        app:layout_constraintTop_toTopOf="@+id/view_container"/>
 
 </android.support.constraint.ConstraintLayout>
