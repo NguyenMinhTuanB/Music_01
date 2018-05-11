@@ -16,6 +16,7 @@ public class Song implements Parcelable {
     private String mUsername;
     private String mAvatarUrl;
     private int mPlaybackCount;
+    private String mAlbum;
 
     public Song() {
     }
@@ -33,6 +34,7 @@ public class Song implements Parcelable {
         mUsername = in.readString();
         mAvatarUrl = in.readString();
         mPlaybackCount = in.readInt();
+        mAlbum = in.readString();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {
@@ -46,6 +48,14 @@ public class Song implements Parcelable {
             return new Song[size];
         }
     };
+
+    public String getAlbum() {
+        return mAlbum;
+    }
+
+    public void setAlbum(String album) {
+        mAlbum = album;
+    }
 
     public String getArtworkUrl() {
         return mArtworkUrl;
@@ -166,6 +176,7 @@ public class Song implements Parcelable {
         parcel.writeString(mUsername);
         parcel.writeString(mAvatarUrl);
         parcel.writeInt(mPlaybackCount);
+        parcel.writeString(mAlbum);
     }
 
     public static class SongEntity {
@@ -184,6 +195,8 @@ public class Song implements Parcelable {
         public static final String AVATAR_URL = "avatar_url";
         public static final String LIKES_COUNT = "likes_count";
         public static final String USERNAME = "username";
+        public static final String LARGE_IMAGE_SIZE = "large";
+        public static final String BETTER_IMAGE_SIZE = "original";
     }
 
     @Override

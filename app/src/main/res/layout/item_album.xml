@@ -8,7 +8,7 @@
     android:padding="@dimen/dp_16">
 
     <ImageView
-        android:id="@+id/image_artist_avatar"
+        android:id="@+id/image_album"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:contentDescription="@null"
@@ -18,17 +18,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_artist"
+        android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
         android:fontFamily="sans-serif"
         android:text="@string/album"
         android:textSize="@dimen/sp_16"
-        app:layout_constraintLeft_toRightOf="@id/image_artist_avatar" />
+        app:layout_constraintLeft_toRightOf="@id/image_album" />
 
     <TextView
-        android:id="@+id/text_song_name"
+        android:id="@+id/text_album_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
@@ -37,17 +37,25 @@
         android:maxLines="1"
         android:text="@string/category"
         android:textSize="@dimen/sp_16"
-        app:layout_constraintLeft_toRightOf="@+id/text_artist"
+        app:layout_constraintLeft_toRightOf="@+id/text_view"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_artist"
+        android:id="@+id/text_view_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_16"
+        android:text="Total:"
+        app:layout_constraintLeft_toRightOf="@id/image_album"
+        app:layout_constraintTop_toBottomOf="@+id/text_album_name" />
+
+    <TextView
+        android:id="@+id/text_total_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:text="@string/total_song"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintLeft_toRightOf="@id/image_artist_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/text_song_name" />
+        app:layout_constraintLeft_toLeftOf="@id/text_album_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_album_name" />
 </android.support.constraint.ConstraintLayout>

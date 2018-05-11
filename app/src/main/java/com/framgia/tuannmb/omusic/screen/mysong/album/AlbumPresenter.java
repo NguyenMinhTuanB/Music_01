@@ -6,7 +6,6 @@ import com.framgia.tuannmb.omusic.data.repository.SongRepository;
 import java.util.List;
 
 public class AlbumPresenter implements AlbumContract.Presenter {
-    private static final String TAG = AlbumPresenter.class.getSimpleName();
     private AlbumContract.View mView;
     private SongRepository mSongRepository;
 

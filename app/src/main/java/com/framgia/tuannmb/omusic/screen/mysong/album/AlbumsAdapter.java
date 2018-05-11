@@ -64,7 +64,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            mAlbumItemListener.onClickItem(mAlbums.get(getAdapterPosition()));
+            mAlbumItemListener.onItemClick(mAlbums.get(getAdapterPosition()));
         }
     }
 
@@ -78,6 +78,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     }
 
     public interface AlbumItemListener {
-        void onClickItem(Category category);
+        void onItemClick(Category category);
     }
 }

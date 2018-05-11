@@ -12,10 +12,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.framgia.tuannmb.omusic.R;
 import com.framgia.tuannmb.omusic.data.model.Category;
 import com.framgia.tuannmb.omusic.data.model.Song;
+import com.framgia.tuannmb.omusic.downloadsong.DownloadKey;
 import com.framgia.tuannmb.omusic.downloadsong.DownloadSongService;
 import com.framgia.tuannmb.omusic.notification.NotificationAction;
 import com.framgia.tuannmb.omusic.screen.BaseActivity;
@@ -35,13 +35,14 @@ import com.framgia.tuannmb.omusic.screen.mysong.detailartist.DetailArtistFragmen
 import com.framgia.tuannmb.omusic.screen.soundcloudsong.SongsFragment;
 import com.framgia.tuannmb.omusic.service.MusicPlayerService;
 import com.framgia.tuannmb.omusic.utils.StringUtil;
+import com.framgia.tuannmb.omusic.utils.music.SongPlayerManager;
 
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         SeekBar.OnSeekBarChangeListener, View.OnClickListener,
-        MusicPlayerService.OnListenerActivity {
+        MusicPlayerService.OnListenerActivity{
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private SongsFragment mSongsFragment;
@@ -54,7 +55,6 @@ public class MainActivity extends BaseActivity implements
     private ImageView mImagePreviousSmall;
     private ImageView mImageSongSmall;
     private TextView mTextArtistAndTitle;
-    private TextView mTextTimeSmall;
 
     private ConstraintLayout mSmallControlView;
 
@@ -81,6 +81,11 @@ public class MainActivity extends BaseActivity implements
         addSoundCloudFragment();
         boundService();
         getIntentFromNotification();
+        intVisibleControl();
+    }
+
+    private void intVisibleControl() {
+
     }
 
     private void getIntentFromNotification() {
@@ -93,7 +98,7 @@ public class MainActivity extends BaseActivity implements
         }
         if (intent.getAction().equals(NotificationAction.MAIN_ACTION)) {
             showDetailMusic();
-            setVisibleController(false);
+            setVisibleController(true);
         }
     }
 
@@ -124,7 +129,7 @@ public class MainActivity extends BaseActivity implements
         mImagePreviousSmall = findViewById(R.id.image_previous_small);
         mImageSongSmall = findViewById(R.id.image_song_small);
         mTextArtistAndTitle = findViewById(R.id.text_artist_and_title);
-        mTextTimeSmall = findViewById(R.id.text_time_small);
+        mTextArtistAndTitle.setSelected(true);
     }
 
     private void boundService() {
@@ -161,7 +166,7 @@ public class MainActivity extends BaseActivity implements
                 .commit();
     }
 
-    private void addMySongFragment() {
+    public void addMySongFragment() {
         if (mMySongsFragment == null) {
             mMySongsFragment = new MySongsFragment();
         }
@@ -223,6 +228,7 @@ public class MainActivity extends BaseActivity implements
                 break;
             case R.id.nav_exit_music:
                 stopForegroundServiceMusic();
+                mPlayerService.stopSong();
                 finish();
             default:
                 break;
@@ -295,22 +301,17 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.image_shuffle:
-                break;
-            case R.id.image_back:
-                setVisibleController(true);
-            case R.id.image_download:
-                break;
             case R.id.image_play_small:
                 changeStateFromController();
+                updateControlUI();
                 break;
             case R.id.image_next_small:
                 nextFromController();
-                updateUI();
+                updateControlUI();
                 break;
             case R.id.image_previous_small:
                 previousFromController();
-                updateUI();
+                updateControlUI();
                 break;
             case R.id.play_small_view:
                 showDetailMusic();
@@ -347,6 +348,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     private int getLevelImagePlay() {
+        if(mPlayerService == null){
+            return StateLevel.PLAY;
+        }
         if (mPlayerService.isOnlyPlaying()) {
             return StateLevel.PAUSE;
         } else {
@@ -354,8 +358,15 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     public void updateUI() {
+        Log.d(TAG, "updateUI: ");
+        updateControlUI();
+    }
+
+    public void updateControlUI() {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -367,26 +378,21 @@ public class MainActivity extends BaseActivity implements
                 loadSongAvatar(mImageSongSmall, getCurrentSong());
             }
         });
-        startAnimationForControl();
-    }
-
-    private void startAnimationForControl() {
-        Animation animText = AnimationUtils.loadAnimation(this, R.anim.anim_run_text);
-        mTextArtistAndTitle.startAnimation(animText);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "onStop: ");
         super.onStop();
     }
 
@@ -397,13 +403,16 @@ public class MainActivity extends BaseActivity implements
         super.onDestroy();
     }
 
-    public void downloadSong(Song song) {
-        if (song == null) return;
-        if (!song.isDownloadable()) {
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mPlayerService.setListenerActivity(this);
+        if (!mIsConnect || getCurrentSong() == null) {
             return;
         }
-        Intent intent = new Intent(this, DownloadSongService.class);
-        startService(intent);
+        Log.d(TAG, "onRestart: ");
+        updateControlUI();
+        //updateUI();
     }
 
     public Song getCurrentSong() {
@@ -425,7 +434,13 @@ public class MainActivity extends BaseActivity implements
         setCurrentSongs(songs);
         playSong(position);
         setVisibleController(true);
-        updateUI();
+        //updateUI();
         startMusicForegroundService();
+        showDetailMusic();
+    }
+
+    public void clickAlbumItem(Category category){
+        setCategory(category);
+        addDetailAlbumFragment();
     }
 }

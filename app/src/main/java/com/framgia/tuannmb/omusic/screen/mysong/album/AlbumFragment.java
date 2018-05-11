@@ -47,7 +47,7 @@ public class AlbumFragment extends BaseFragment implements AlbumContract.View,
     }
 
     @Override
-    public void onClickItem(Category category) {
+    public void onItemClick(Category category) {
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).clickAlbumItem(category);
         }

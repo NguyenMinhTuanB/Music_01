@@ -1,7 +1,6 @@
 package com.framgia.tuannmb.omusic.data.source.remote;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.framgia.tuannmb.omusic.data.model.Song;
 import com.framgia.tuannmb.omusic.data.source.SongDataSource;
@@ -66,27 +65,36 @@ public abstract class BaseFetchSongFromUrl extends AsyncTask<String, Void, List<
         Song song = new Song();
         try {
             JSONObject jsonUser = jsonSong.getJSONObject(Song.SongEntity.USER);
-            String mArtworkUrl = jsonSong.getString(Song.SongEntity.ARTWORK_URL);
-            String mAvatarUrl = jsonUser.getString(Song.SongEntity.AVATAR_URL);
-            if (mArtworkUrl.equals(Constant.NULL_RESULT)) {
-                mArtworkUrl = mAvatarUrl;
+            String artworkUrl = jsonSong.getString(Song.SongEntity.ARTWORK_URL);
+            String avatarUrl = jsonUser.getString(Song.SongEntity.AVATAR_URL);
+            if (artworkUrl.equals(Constant.NULL_RESULT)) {
+                artworkUrl = avatarUrl;
             }
-            song.setArtworkUrl(mArtworkUrl);
-            song.setAvatarUrl(mAvatarUrl);
+            song.setArtworkUrl(artworkUrl);
+            song.setAvatarUrl(parseArtworkUrlToBetter(avatarUrl));
             song.setDescription(jsonSong.getString(Song.SongEntity.DESCRIPTION));
             song.setDownloadable(jsonSong.getBoolean(Song.SongEntity.DOWNLOADABLE));
-            song.setDownloadUrl(jsonSong.getString(Song.SongEntity.DOWNLOAD_URL));
+            song.setDownloadUrl(StringUtil.convertUrlDownloadSong(jsonSong.getString(Song.SongEntity.DOWNLOAD_URL)));
             song.setDuration(jsonSong.getLong(Song.SongEntity.DURATION));
             song.setId(jsonSong.getInt(Song.SongEntity.ID));
             song.setLikesCount(jsonSong.getInt(Song.SongEntity.LIKES_COUNT));
             song.setPlaybackCount(jsonSong.getInt(Song.SongEntity.PLAYBACK_COUNT));
             song.setTitle(jsonSong.getString(Song.SongEntity.TITLE));
-            song.setUri(StringUtil.getUrlStreamTrack(jsonSong.getString(Song.SongEntity.URI)));
+            song.setUri(StringUtil.getUrlStreamSong(jsonSong.getString(Song.SongEntity.URI)));
             song.setUsername(jsonUser.getString(Song.SongEntity.USERNAME));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return song;
+    }
+
+    protected String parseArtworkUrlToBetter(String artworkUrl) {
+        if (artworkUrl != null) {
+            return artworkUrl.replace(Song.SongEntity.LARGE_IMAGE_SIZE,
+                    Song.SongEntity.BETTER_IMAGE_SIZE);
+        }
+        return null;
     }
 
     protected String getJSONStringFromURL(String urlString) throws IOException {

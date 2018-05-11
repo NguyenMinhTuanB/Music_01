@@ -22,6 +22,8 @@ import com.framgia.tuannmb.omusic.utils.Constant;
 import com.framgia.tuannmb.omusic.utils.StringUtil;
 import com.framgia.tuannmb.omusic.utils.music.RepeatType;
 
+import java.util.Random;
+
 public class DetailMusicActivity extends BaseActivity implements View.OnClickListener,
         SeekBar.OnSeekBarChangeListener, MusicPlayerService.OnListenerActivity {
     private ImageView mImagePlay;
@@ -72,10 +74,23 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
 
     private void runAnimation() {
         Animation animSongImage =
-                AnimationUtils.loadAnimation(this, R.anim.anim_image_detail);
+                AnimationUtils.loadAnimation(this, randomAnimationId());
         mImageSong.startAnimation(animSongImage);
-        Animation animText = AnimationUtils.loadAnimation(this, R.anim.anim_run_text);
-        mTextTitle.startAnimation(animText);
+    }
+
+    private int randomAnimationId() {
+        switch (new Random().nextInt(4)) {
+            case 0:
+                return R.anim.anim_image_detai_one;
+            case 1:
+                return R.anim.anim_image_detai_two;
+            case 2:
+                return R.anim.anim_image_detai_three;
+            case 3:
+                return R.anim.anim_image_detai_four;
+            default:
+                return R.anim.anim_image_detai_one;
+        }
     }
 
     private void initView() {
@@ -89,7 +104,8 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
         mImageBack = findViewById(R.id.image_back);
 
         mTextTitle = findViewById(R.id.text_artist_name);
-        mTextArtist = findViewById(R.id.text_total);
+        mTextTitle.setSelected(true);
+        mTextArtist = findViewById(R.id.text_artist);
 
         mDuration = findViewById(R.id.text_duration);
         mTextCurrentTime = findViewById(R.id.text_current_time);
@@ -157,6 +173,9 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
         mImagePlay.setImageLevel(getLevelImagePlay());
         mImageShuffle.setImageLevel(getLevelImageShuffle());
         mImageRepeat.setImageLevel(getLevelImageRepeat());
+        if (!getCurrentSong().isDownloadable()) {
+            mImageDownload.setVisibility(View.INVISIBLE);
+        }
     }
 
     private int getLevelImagePlay() {
@@ -166,7 +185,6 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
         if (mPlayerService.isOnlyPlaying()) {
             return StateLevel.PAUSE;
         }
-
         return StateLevel.PLAY;
     }
 
@@ -204,9 +222,26 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadSongAvatar(ImageView image, Song song) {
-        Glide.with(this).load(song.getArtworkUrl())
-                .placeholder(R.drawable.detail_music).dontAnimate()
+        Glide.with(this).load(song.getAvatarUrl())
+                .placeholder(randomAvatarId()).dontAnimate()
                 .into(image);
+    }
+
+    private int randomAvatarId() {
+        switch (new Random().nextInt(5)) {
+            case 0:
+                return R.drawable.detail_music_one;
+            case 1:
+                return R.drawable.detail_music_two;
+            case 2:
+                return R.drawable.detail_music_three;
+            case 3:
+                return R.drawable.detail_music_four;
+            case 4:
+                return R.drawable.detail_music_five;
+            default:
+                return R.drawable.detail_music_one;
+        }
     }
 
     private void setVisibleDownloadButton(boolean isVisible) {
@@ -322,11 +357,6 @@ public class DetailMusicActivity extends BaseActivity implements View.OnClickLis
             mSeekBar.setProgress(mPlayerService.getCurrentTime());
             mDuration.setText(mPlayerService.getTextExistTime());
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

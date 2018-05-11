@@ -19,5 +19,9 @@ public class Constant {
     public static final int LIMIT_20 = 20;
     public static final int OFFSET_20 = 20;
 
+    public static final int LIMIT_10 = 10;
+    public static final int OFFSET_10 = 10;
+    public static final int ADD_10 = 10;
+
     public static final int DELAY_TIME = 1000; /*milliseconds*/
 }

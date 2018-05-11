@@ -15,23 +15,27 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
 
     private int mRepeatType = RepeatType.REPEAT_OFF;
     private boolean mIsShuffle;
-    private OnListenerService mListenerService;
     private MediaPlayer mPlayer;
     private List<Song> mCurrentSongs;
     private int mIndexSongCurrent;
     private int mState = MediaPlayerState.IDLE;
+    private OnListenerService mOnListenerService;
 
     public SongPlayerManager() {
         mPlayer = new MediaPlayer();
     }
 
-    public void setListenerService(OnListenerService listenerService) {
-        mListenerService = listenerService;
+    public void setOnListenerService(OnListenerService onListenerService) {
+        mOnListenerService = onListenerService;
     }
 
     //Dang trang thai playing
     public boolean isOnlyPlaying() {
         return mState == MediaPlayerState.PLAYING;
+    }
+
+    public boolean isPause(){
+        return mState == MediaPlayerState.PAUSED;
     }
 
     public boolean isPlaying() {
@@ -43,38 +47,47 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
     }
 
     public Song getSongCurrent() {
+        if (mCurrentSongs == null) {
+            return null;
+        }
         return mCurrentSongs.get(mIndexSongCurrent);
     }
 
     public void playSong() {
         if (mState == MediaPlayerState.IDLE || mState == MediaPlayerState.STOPPED) {
-            Song song = mCurrentSongs.get(mIndexSongCurrent);
-            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try {
+                Song song = getSongCurrent();
+                mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                if (song.getUri() == null) {
+                    nextSong();
+                    return;
+                }
                 mPlayer.setDataSource(song.getUri());
+                mPlayer.setOnPreparedListener(this);
+                mPlayer.setOnCompletionListener(this);
+                mPlayer.prepareAsync();
+                mState = MediaPlayerState.PLAYING;
+                mOnListenerService.updateUI();
             } catch (IOException e) {
+                //TOAST
                 nextSong();
+                e.printStackTrace();
             }
-            //Mỗi khi chạy bài mới sẽ set thông tin mới
-            if (mListenerService != null) {
-                mListenerService.updateSong(getSongCurrent());
-            }
-            //chay seekbar
-            mPlayer.setOnPreparedListener(this);
-            mPlayer.setOnCompletionListener(this);
-            mPlayer.prepareAsync();
-            mState = MediaPlayerState.PLAYING;
             return;
         }
         //dang o playing thi se chuyen sang paused
         if (mState == MediaPlayerState.PLAYING) {
             mPlayer.pause();
             mState = MediaPlayerState.PAUSED;
+            //mOnListenerService.stopForegroundServiceWhenPause();
+            mOnListenerService.updateUI();
             return;
         }
 
         mPlayer.start();
         mState = MediaPlayerState.PLAYING;
+        //mOnListenerService.startForegroundServiceAgain();
+        mOnListenerService.updateUI();
     }
 
     public void stopSong() {
@@ -86,13 +99,14 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
     }
 
     public void nextSong() {
-        if (mIndexSongCurrent == mCurrentSongs.size()) {
-            return;
-        }
         if (mIsShuffle) {
             mIndexSongCurrent = new Random().nextInt(mCurrentSongs.size());
         } else {
-            mIndexSongCurrent++;
+            if (mIndexSongCurrent == mCurrentSongs.size() - 1) {
+                mIndexSongCurrent = 0;
+            } else {
+                mIndexSongCurrent++;
+            }
         }
         stopSong();
         playSong();
@@ -127,6 +141,7 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
                 break;
             case RepeatType.REPEAT_ONE:
                 mPlayer.setLooping(true);
+                mediaPlayer.start();
                 break;
             case RepeatType.REPEAT_ALL:
                 repeatAll();
@@ -150,6 +165,9 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
             mIndexSongCurrent++;
             stopSong();
             playSong();
+        }
+        if(mIndexSongCurrent == mCurrentSongs.size() -1){
+
         }
     }
 
@@ -188,8 +206,7 @@ public class SongPlayerManager implements MediaPlayer.OnPreparedListener,
         mIsShuffle = shuffle;
     }
 
-    //Dung de ra lenh cho MainActivity cap nhat SongUI
     public interface OnListenerService {
-        void updateSong(Song song);
+        void updateUI();
     }
 }
